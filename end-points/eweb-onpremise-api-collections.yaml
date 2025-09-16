@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: eweb-onpremise-api-collections
+  version: 1.0.0
+paths:
+  /api/eventLog/getEventLogData:
+    get:
+      summary: Get event log data
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: "Bearer your_token_here"
+          description: Bearer token required for authorization
+        - in: query
+          name: pending
+          required: false
+          schema:
+            type: boolean
+          description: >
+            If true, only pending events are returned.  
+            If false, only resolved events are returned.  
+            If omitted, all events are returned.
+          examples:
+            onlyPending:
+              summary: Only pending events
+              value: true
+            resolvedOnly:
+              summary: Only resolved events
+              value: false
+            allEvents:
+              summary: All events (parameter omitted)
+              value: null
+        - in: query
+          name: pageSize
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Event log data list
+          content:
+            application/json:
+              example:
+                currentPage: 1
+                totalPages: 1
+                totalItems: 7
+                items:
+                  - objectId: "PSF1-M101-DE1-20"
+                    type: "PLCEventReport"
+                    unit: ""
+                    location: "PSF1"
+                    severity: 3
+                    errorCode: "11"
+                    pending: false
+                    startDate: "2024-12-17 07:58:11"
+                    endDate: "2024-12-17 08:03:12"
+                    parameters: '{"p1":"","p2":""}'
+                    description: "Motor phase failure phase W"
+                    solution: "-"
+                  - objectId: "PSF_1-M101-DE1-20"
+                    type: "PLCEventReport"
+                    unit: ""
+                    location: "PSF_1"
+                    severity: 3
+                    errorCode: "11"
+                    pending: false
+                    startDate: "2024-12-17 07:57:58"
+                    endDate: "2024-12-17 08:03:12"
+                    parameters: '{"p1":"","p2":""}'
+                    description: "No communication with drive"
+                    solution: "Check network cables and drive power."
+        '400':
+          description: Bad request - invalid or missing parameters
+          content:
+            application/json:
+              example:
+                message: "page and pageSize must be positive integers and pageSize <= 1000"
+        '403':
+          description: Unauthorized - missing or invalid Bearer token
+          content:
+            application/json:
+              example:
+                message: "Invalid or disabled API token"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
+
+  /api/transportLog/getTransportData:
+    get:
+      summary: Get transport log data
+      tags:
+        - Transport
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: "Bearer your_token_here"
+          description: Bearer token required for authorization
+        - in: query
+          name: type
+          required: false
+          schema:
+            type: string
+          description: >
+            Filter transport logs by type.  
+            If omitted, all transport log types are returned.
+          examples:
+            weightCheck:
+              summary: WeightCheck type only
+              value: "WeightCheck"
+            testType:
+              summary: Test type only
+              value: "test"
+            allTypes:
+              summary: All transport log types (parameter omitted)
+              value: null
+        - in: query
+          name: pageSize
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transport log data list
+          content:
+            application/json:
+              example:
+                totalItems: 20
+                totalPages: 2
+                currentPage: 1
+                data:
+                  - id: 20
+                    loadCarrierId: "12345"
+                    type: "test"
+                    module: "WeightCheck"
+                    process: "WeightCheck"
+                    source: "WeightCheck"
+                    result: "Success"
+                    context: '{"test":"hej"}'
+                    cleared: false
+                    createdAt: "2025-09-15T09:42:13.000Z"
+                    updatedAt: "2025-09-15T09:42:13.000Z"
+                  - id: 19
+                    loadCarrierId: "12345"
+                    type: "test"
+                    module: "WeightCheck"
+                    process: "WeightCheck"
+                    source: "WeightCheck"
+                    result: "Success"
+                    context: '{"test":"hej"}'
+                    cleared: false
+                    createdAt: "2025-09-15T09:42:13.000Z"
+                    updatedAt: "2025-09-15T09:42:13.000Z"
+        '400':
+          description: Bad request - invalid or missing parameters
+          content:
+            application/json:
+              example:
+                message: "page and pageSize must be positive integers and pageSize <= 1000"
+        '403':
+          description: Unauthorized - missing or invalid Bearer token
+          content:
+            application/json:
+              example:
+                message: "Invalid or disabled API token"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                message: "Internal server error"
