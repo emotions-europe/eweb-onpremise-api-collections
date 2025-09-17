@@ -5,7 +5,6 @@ window.onload = function() {
   window.ui = SwaggerUIBundle({
     url: "./end-points/eweb-onpremise-api-collections.yaml",
     dom_id: '#swagger-ui',
-    supportedSubmitMethods: [],
     deepLinking: true,
     presets: [
       SwaggerUIBundle.presets.apis,

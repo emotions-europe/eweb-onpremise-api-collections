@@ -2,6 +2,22 @@ openapi: 3.0.3
 info:
   title: eweb-onpremise-api-collections
   version: 1.0.0
+
+servers:
+  - url: "http://{serverIp}"
+    description: Custom server IP
+    variables:
+      serverIp:
+        default: "localhost:8080"
+        description: The IP address or hostname of the server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
 paths:
   /api/eventLog/getEventLogData:
     get:
@@ -11,13 +27,6 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            example: "Bearer your_token_here"
-          description: Bearer token required for authorization
         - in: query
           name: pending
           required: false
@@ -42,11 +51,13 @@ paths:
           required: true
           schema:
             type: integer
+            default: 10
         - in: query
           name: page
           required: true
           schema:
             type: integer
+            default: 1
       responses:
         '200':
           description: Event log data list
@@ -108,13 +119,6 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            example: "Bearer your_token_here"
-          description: Bearer token required for authorization
         - in: query
           name: type
           required: false
@@ -138,11 +142,13 @@ paths:
           required: true
           schema:
             type: integer
+            default: 10
         - in: query
           name: page
           required: true
           schema:
             type: integer
+            default: 1
       responses:
         '200':
           description: Transport log data list
