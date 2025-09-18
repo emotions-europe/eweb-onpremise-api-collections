@@ -2,14 +2,11 @@ openapi: 3.0.3
 info:
   title: eweb-onpremise-api-collections
   version: 1.0.0
+  description: |
+    All API endpoints require authentication. 
+    You must request a Bearer token from **e-motions** to access these APIs.
 
-servers:
-  - url: "http://{serverIp}"
-    description: Custom server IP
-    variables:
-      serverIp:
-        default: "localhost:8080"
-        description: The IP address or hostname of the server
+    **Important:** All requests are HTTP-based and the APIs are only reachable from the internal network.
 
 components:
   securitySchemes:
@@ -60,7 +57,7 @@ paths:
             default: 1
       responses:
         '200':
-          description: Event log data list
+          description: Example - Event log data list
           content:
             application/json:
               example:
@@ -93,19 +90,21 @@ paths:
                     description: "No communication with drive"
                     solution: "Check network cables and drive power."
         '400':
-          description: Bad request - invalid or missing parameters
+          description: Example - Bad request - invalid or missing parameters
           content:
             application/json:
               example:
                 message: "page and pageSize must be positive integers and pageSize <= 1000"
         '403':
-          description: Unauthorized - missing or invalid Bearer token
+          description: Example - Unauthorized - missing or invalid Bearer token
           content:
             application/json:
               example:
-                message: "Invalid or disabled API token"
+                oneOf:
+                  - message: "Invalid or disabled API token"
+                  - message: "No token provided!"
         '500':
-          description: Internal server error
+          description: Example - Internal server error
           content:
             application/json:
               example:
@@ -127,16 +126,6 @@ paths:
           description: >
             Filter transport logs by type.  
             If omitted, all transport log types are returned.
-          examples:
-            weightCheck:
-              summary: WeightCheck type only
-              value: "WeightCheck"
-            testType:
-              summary: Test type only
-              value: "test"
-            allTypes:
-              summary: All transport log types (parameter omitted)
-              value: null
         - in: query
           name: pageSize
           required: true
@@ -151,7 +140,7 @@ paths:
             default: 1
       responses:
         '200':
-          description: Transport log data list
+          description: Example - Transport log data list
           content:
             application/json:
               example:
@@ -166,7 +155,7 @@ paths:
                     process: "WeightCheck"
                     source: "WeightCheck"
                     result: "Success"
-                    context: '{"test":"hej"}'
+                    context: '{"test":"test"}'
                     cleared: false
                     createdAt: "2025-09-15T09:42:13.000Z"
                     updatedAt: "2025-09-15T09:42:13.000Z"
@@ -177,24 +166,26 @@ paths:
                     process: "WeightCheck"
                     source: "WeightCheck"
                     result: "Success"
-                    context: '{"test":"hej"}'
+                    context: '{"test":"test"}'
                     cleared: false
                     createdAt: "2025-09-15T09:42:13.000Z"
                     updatedAt: "2025-09-15T09:42:13.000Z"
         '400':
-          description: Bad request - invalid or missing parameters
+          description: Example - Bad request - invalid or missing parameters
           content:
             application/json:
               example:
                 message: "page and pageSize must be positive integers and pageSize <= 1000"
         '403':
-          description: Unauthorized - missing or invalid Bearer token
+          description: Example - Unauthorized - missing or invalid Bearer token
           content:
             application/json:
               example:
-                message: "Invalid or disabled API token"
+                oneOf:
+                  - message: "Invalid or disabled API token"
+                  - message: "No token provided!"
         '500':
-          description: Internal server error
+          description: Example - Internal server error
           content:
             application/json:
               example:

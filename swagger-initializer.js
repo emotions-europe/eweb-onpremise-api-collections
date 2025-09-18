@@ -13,7 +13,12 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
+    supportedSubmitMethods: [],
     layout: "BaseLayout",
+    // Hide authorize button
+    showCommonExtensions: false,
+    // Disable OAuth2 redirect if needed
+    oauth2RedirectUrl: null,
   });
 
   //</editor-fold>
