@@ -6,7 +6,7 @@ info:
     All API endpoints require authentication. 
     You must request a Bearer token from **e-motions** to access these APIs.
 
-    **Important:** All requests are HTTP-based and the APIs are only reachable from the internal network. Test
+    **Important:** All requests are HTTP-based and the APIs are only reachable from the internal network.
 
 components:
   securitySchemes:
